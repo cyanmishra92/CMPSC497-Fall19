@@ -1,0 +1,322 @@
+name: "Fashion MNIST_BASELINE"
+#  transform_param {
+#    scale: 0.017
+#    mirror: false
+#    crop_size: 224
+#    mean_value: [103.94,116.78,123.68]
+#  }
+input: "data"
+input_dim: 1
+input_dim: 3
+input_dim: 32
+input_dim: 32
+
+##################################################
+layer {
+  name: "conv11"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv11"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 32
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+
+#layer {
+#  name: "pool21"
+#  type: "Pooling"
+#  bottom: "conv1"
+#  top: "pool21"
+#  pooling_param {
+#    pool: MAX
+#    kernel_size: 2
+#    stride: 2
+#  }
+#}
+
+layer {
+  name: "bn11"
+  type: "BatchNorm"
+  bottom: "conv11"
+  top: "bn11"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+}
+
+layer {
+  name: "act11"
+  type: "ReLU"
+  bottom: "bn11"
+  top: "act11"
+}
+##################################################
+
+layer {
+  name: "conv12"
+  type: "Convolution"
+  bottom: "act11"
+  top: "conv12"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 32
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+  }
+}
+
+layer {
+  name: "pool12"
+  type: "Pooling"
+  bottom: "conv12"
+  top: "pool12"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+
+layer {
+  name: "bn12"
+  type: "BatchNorm"
+  bottom: "pool12"
+  top: "bn12"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+}
+
+layer {
+  name: "act12"
+  type: "ReLU"
+  bottom: "bn12"
+  top: "act12"
+}
+##################################################
+
+layer {
+  name: "conv13"
+  type: "Convolution"
+  bottom: "act12"
+  top: "conv13"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+  }
+}
+
+
+layer {
+  name: "bn13"
+  type: "BatchNorm"
+  bottom: "conv13"
+  top: "bn13"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+}
+
+layer {
+  name: "act13"
+  type: "ReLU"
+  bottom: "bn13"
+  top: "act13"
+}
+##################################################
+
+layer {
+  name: "conv14"
+  type: "Convolution"
+  bottom: "act13"
+  top: "conv14"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+  }
+}
+
+layer {
+  name: "pool14"
+  type: "Pooling"
+  bottom: "conv14"
+  top: "pool14"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+
+layer {
+  name: "bn14"
+  type: "BatchNorm"
+  bottom: "pool14"
+  top: "bn14"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+}
+
+layer {
+  name: "act14"
+  type: "ReLU"
+  bottom: "bn14"
+  top: "act14"
+}
+##################################################
+
+layer {
+  name: "dns11"
+  type: "InnerProduct"
+  bottom: "act14"
+  top: "dns11"
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+
+layer {
+  name: "d_bn11"
+  type: "BatchNorm"
+  bottom: "dns11"
+  top: "d_bn11"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+}
+
+layer {
+  name: "d_act11"
+  type: "ReLU"
+  bottom: "d_bn11"
+  top: "d_act11"
+}
+
+##################################################
+
+layer {
+  name: "dns12"
+  type: "InnerProduct"
+  bottom: "d_act11"
+  top: "dns12"
+  inner_product_param {
+    num_output: 10
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+
+layer {
+  name: "d_bn12"
+  type: "BatchNorm"
+  bottom: "dns12"
+  top: "d_bn12"
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+  param {
+    lr_mult: 0.0
+    decay_mult: 0.0
+  }
+}
+
+layer {
+  name: "d_act12"
+  type: "Softmax"
+  bottom: "d_bn12"
+  top: "d_act12"
+}
