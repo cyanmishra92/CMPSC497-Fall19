@@ -11,7 +11,7 @@ Your vpn address will be vpn.cse.psu.edu. If you are not familiar with the VPN p
 For example: $ssh -XY cxm2114@cse-p204inst04.cse.psu.edu
 This will ask you to authenticate for logging in. You can use your CSE password and 2FA to log in. 
 
-2. Download the anaconda installtion script fromanaconda site (https://repo.anaconda.com/archive/Anaconda2-2019.10-Linux-x86_64.sh)
+2. Download the anaconda installtion script from anaconda site (https://repo.anaconda.com/archive/Anaconda2-2019.10-Linux-x86_64.sh)
         
         $wget "https://repo.anaconda.com/archive/Anaconda2-2019.10-Linux-x86_64.sh"
 
@@ -29,7 +29,7 @@ This will install tensorflow with all its dependencies. Please follow the instal
 
 6. Activate the tensorflow environemnt:
     
-        $conda acrtivate tensorflow_env
+        $conda activate tensorflow_env
 
 7. Install Keras (only one time)
         
