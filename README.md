@@ -8,7 +8,11 @@ The course focuses on teachig the students a practical approach to build deep ne
 Your vpn address will be vpn.cse.psu.edu. If you are not familiar with the VPN please see us in the office hours.)
     
     $ssh -XY <username>@cse-p204instxx.cse.psu.edu
-For example: $ssh -XY cxm2114@cse-p204inst04.cse.psu.edu
+
+For example:
+
+    $ssh -XY cxm2114@cse-p204inst04.cse.psu.edu
+
 This will ask you to authenticate for logging in. You can use your CSE password and 2FA to log in. 
 
 2. Download the anaconda installtion script from anaconda site (https://repo.anaconda.com/archive/Anaconda2-2019.10-Linux-x86_64.sh)
