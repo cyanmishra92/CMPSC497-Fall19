@@ -1,0 +1,85 @@
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import numpy as np
+
+mnist = tf.keras.datasets.mnist
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+rows, cols = 28, 28
+
+x_train = x_train.reshape(x_train.shape[0], rows, cols, 1)
+x_test = x_test.reshape(x_test.shape[0], rows, cols, 1)
+
+input_shape = (rows, cols, 1)
+
+# convert to float and normalize
+x_train = x_train.astype('float32')
+x_test = x_test.astype('float32')
+x_train = x_train / 255.0
+x_test = x_test / 255.0
+
+# one-hot encode the labels
+y_train = tf.keras.utils.to_categorical(y_train, 10)
+y_test = tf.keras.utils.to_categorical(y_test, 10)
+
+def build_lenet(input_shape):
+  # sequentail API
+  model = tf.keras.Sequential()
+  # convolutional layer 1
+  model.add(tf.keras.layers.Conv2D(filters=6,
+                                   kernel_size=(5, 5),
+                                   strides=(1, 1),
+                                   activation='tanh',
+                                   input_shape=input_shape))
+  # average pooling layer 1
+  model.add(tf.keras.layers.AveragePooling2D(pool_size=(2, 2),
+                                             strides=(2, 2)))
+  # convolutional layer 2
+  model.add(tf.keras.layers.Conv2D(filters=16,
+                                   kernel_size=(5, 5),
+                                   strides=(1, 1),
+                                   activation='tanh'))
+  # average pooling layer 2
+  model.add(tf.keras.layers.AveragePooling2D(pool_size=(2, 2),
+                                             strides=(2, 2)))
+  model.add(tf.keras.layers.Flatten())
+  # fully connected
+  model.add(tf.keras.layers.Dense(units=120,
+                                   activation='tanh'))
+  model.add(tf.keras.layers.Flatten())
+  # fully connected
+  model.add(tf.keras.layers.Dense(units=84, activation='tanh'))
+  # output layer
+  model.add(tf.keras.layers.Dense(units=10, activation='softmax'))
+
+  model.compile(loss='categorical_crossentropy',
+              optimizer=tf.keras.optimizers.SGD(lr=0.1, momentum=0.0, decay=0.0),
+              metrics=['accuracy'])
+
+  return model
+
+lenet = build_lenet(input_shape)
+
+# number of epochs
+epochs = 30
+# train the model
+lenet.summary();
+history = lenet.fit(x_train, y_train,
+                           epochs=epochs,
+                           batch_size=128,
+                           verbose=2, validation_data=(x_test, y_test))
+
+loss, acc = lenet.evaluate(x_test, y_test)
+lenet.save('mnist_lenet5_E30.h5')
+print('ACCURACY: ', acc)
+
+num_epochs = np.arange(0, 30)
+plt.figure(dpi=200)
+plt.style.use('ggplot')
+plt.plot(num_epochs, history.history['loss'], label='train_loss', c='red')
+plt.plot(num_epochs, history.history['acc'], label='train_acc', c='green')
+plt.title('Training Loss and Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Loss/Accuracy')
+plt.legend()
+plt.savefig('plot.png')
